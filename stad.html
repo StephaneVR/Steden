@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head><title>Stad zoeker</title></head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.4/angular.min.js"></script>
+    <body>
+        <div ng-app="Steden_App" ng-controller="Steden_controller">
+        <input ng-model="CityofChoice">
+        <button ng-click="FetchCity()">Vang</button>
+        <ul>
+            <li ng-repeat="City in Cities">
+                {{ City.city + "("+ City.stade + "-"+ City.country+ ")"}}
+            </li>
+        </ul>
+        </div>
+        <script>
+        var Steden_App = angular.module("Steden_App",[]);
+        Steden_App.controller ("Steden_controller",function($scope,$http){$scope.FavouriteCities = ["Antwerpen","Valencia","Keulen"];
+        $scope.CityofChoice = $scope.FavouriteCities[Math.floor(Math.random() * $scope.FavouriteCities.length)];
+        $scope.FetchCity = function(){var Qeury ="https://andruxnet-world-cities-v1.p.mashape.com/?query=" + $scope.CityofChoice + "&searchby=city";
+            $http({method:"GET",
+                    url: Qeury,
+                    headers: {"X-Mashape-Key": "28KQQZziX3mshu8PTfV45i31b2kfp1pZO4YjsnJlZgkl9FvsSj","Accept": "application/json"}
+                }).then(function(response){$scope.Cities = response.data;}
+                );
+                
+            };
+        });
+        </script>
+    <body/>
+    <html/>
+    
+ 
